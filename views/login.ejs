@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <link rel="shortcut icon" href="src/img/favicon.png" type="image/png">
+    <link href="src/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/bootstrap-icons.css">
+</head>
+<body data-bs-theme="dark">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <form action="/auth" method="post"  style="width: 20vw;" >
+            <img class="mb-3" src="src/img/logo.png" height="50px">
+            <div id="errorLogin"></div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="username" placeholder="name@example.com">
+                <label for="floatingInput">Usuario</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                <label for="floatingPassword">Contraseña</label>
+            </div>
+            <button type="submit" class="btn btn-warning"><i class="bi bi-box-arrow-in-left"></i> Iniciar Sesión</button>
+        </form> 
+    </div>
+    <script src="./src/js/bootstrap.js"></script>
+    <script src="./src/js/funciones.js"></script>
+</body>
+</html>

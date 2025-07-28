@@ -1,0 +1,32 @@
+{
+  "name": "lockey",
+  "version": "1.0.0",
+  "main": "app.js",
+  "bin": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "pkg . --out-path dist/"
+  },
+  "pkg": {
+    "targets": [
+      "node16-win-x64"
+    ],
+    "assets": [
+      "database.db",
+      "views/**/*",
+      "public/**/*"
+    ]
+  },
+  "keywords": [],
+  "author": "Sanderluis",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "pg": "^8.16.0",
+    "sqlite3": "^5.1.7"
+  },
+  "description": ""
+}

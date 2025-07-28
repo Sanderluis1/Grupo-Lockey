@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="shortcut icon" href="src/img/favicon.png" type="image/png">
+    <link href="./src/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="src/css/bootstrap-icons.css">
+</head>
+<body data-bs-theme="dark">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/home">
+                    <img src="src/img/logo.png" alt="Bootstrap" width="90" height="24">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/solicitudes">Solicitudes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gestionsolicitudes">Gestión de Solicitudes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/usuarios">Gestión de Usuarios</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropstart">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-fill-gear" style="font-size: 100%;"></i>
+                            </a>
+                            <ul class="dropdown-menu p-2">
+                            <li><span class="dropdown-item-text"><i class="bi bi-person-fill"></i> <%= username %></span></li>
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="btn btn-danger" href="/logout"><i class="bi bi-box-arrow-in-right"></i> Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content bg">
+        <div class="container-fluid" style="padding-top: 2vh;">
