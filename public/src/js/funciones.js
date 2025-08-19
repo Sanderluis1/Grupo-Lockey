@@ -1,6 +1,6 @@
 //Mostrar mensajes de error en login
 const params = new URLSearchParams(window.location.search)
-
+let message = ''
 if (params.get('error') === '1') {
     message = 'Usuario o contraseña incorrectos.'
 } else if (params.get('error') === '2') {
