@@ -1,2 +1,2 @@
 # Desarrollo de sistema web para gestión de labores en la empresa “Grupo Lockey”
-2025-T402-G07
+It is an administrative software for managing job applications for the company Inversora Lockey C.A., in addition to managing users with their respective personal data and access levels.
