@@ -1,22 +1,548 @@
 <%- include('partials/header') %>
 <div class="row">
-  <div class="col-sm-6 mb-3 mb-sm-0">
-    <div class="card">
+<!-- Card de Constancia -->
+  <div class="col-sm-4 mb-3 mb-sm-0">
+    <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Constancia de trabajo</h5>
-        <p class="card-text"><i class="bi bi-exclamation-circle" style="color: #dc3545;"></i> Tiene solo tres meses de validez</p>
-        <a href="#" class="btn btn-success"> <i class="bi bi-box-arrow-up"></i> Solicitar</a>
+        <p class="card-text">Documento oficial que certifica la relación laboral, cargo y sueldo. Válido para trámites legales o bancarios.<i class="bi bi-exclamation-circle" style="color: #dc3545;"></i> Tiene solo tres meses de validez</p>
+      </div>
+      <div class="card-footer">
+        <!-- Boton de Modal de Constancia -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalConstancia">
+            <i class="bi bi-box-arrow-up"></i> Solicitar
+        </button>
       </div>
     </div>
   </div>
-  <div class="col-sm-6">
-    <div class="card">
+  <!-- Card de Prestamo -->
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Préstamo</h5>
+        <p class="card-text">Apoyo económico facilitado por la empresa para solventar necesidades puntuales. Sujeto a capacidad de pago y aprobación administrativa.</p>
+      </div>
+      <div class="card-footer">
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalPrestamo">
+              <i class="bi bi-box-arrow-up"></i> Solicitar
+          </button>
+      </div>
+    </div>
+  </div>
+  <!-- Card de A.D.S -->
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Adelanto de Prestaciones Sociales</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-success"> <i class="bi bi-box-arrow-up"></i> Solicitar</a>
+        <p class="card-text">Permite disponer parcialmente de los haberes acumulados. Destinado generalmente a vivienda, salud o educación, previa validación.</p>
+      </div>
+      <div class="card-footer">
+          <!-- Buton de Modal A.D.S -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalAdelanto">
+              <i class="bi bi-box-arrow-up"></i> Solicitar
+          </button>
+      </div>
+    </div>
+  </div>
+  <!-- Card de Chequo Medico -->
+  <% if(rol == 2 || rol == 3) { %>
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Chequeo médico / Pre empleo</h5>
+        <p class="card-text">Evaluación de salud indispensable para garantizar la aptitud física. Requisito obligatorio para nuevos ingresos o control periódico.</p>
+      </div>
+      <div class="card-footer">
+          <!-- Buton de modal Chequeo Medico -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalChequeo">
+              <i class="bi bi-box-arrow-up"></i> Solicitar
+          </button>
+      </div>
+    </div>
+  </div>
+  <!-- Card de EPP -->
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">EPP</h5>
+        <p class="card-text">Solicitud de equipamiento de seguridad necesario para sus labores. Fundamental para prevenir riesgos y cumplir normas vigentes.</p>
+      </div>
+      <div class="card-footer">
+          <!-- Buton de Modal EPP -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalEpp">
+            <i class="bi bi-box-arrow-up"></i> Solicitar
+          </button>
+      </div>
+    </div>
+  </div>
+  <% } %>
+  <!-- Card de Capacitación -->
+  <% if(rol == 1 || rol == 2) { %>
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Capacitación</h5>
+        <p class="card-text">La formación es vital para desarrollar competencias clave, beneficiando al solicitante. Se requiere revisión y aprobación.</p>
+      </div>
+      <div class="card-footer">
+          <!-- Boton de Modal de Capacitación -->
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalCapacitacion">
+              <i class="bi bi-box-arrow-up"></i> Solicitar
+          </button>
+      </div>
+    </div>
+  </div>
+  <!-- Card de Requisición de Personal -->
+  <div class="col-sm-4 mb-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Requisición de Personal</h5>
+        <p class="card-text">Inicia el proceso formal de búsqueda y selección de talento. Requiere definición del perfil y validación presupuestaria.</p>
+      </div>
+      <div class="card-footer">
+        <!-- Boton de modal Requisición de Personal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModalRequisicion">
+            <i class="bi bi-box-arrow-up"></i> Solicitar
+        </button>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<!-- Modal de Constancia de Trabajo-->
+<div class="modal fade" id="ModalConstancia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de Constancia de Trabajo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/constancia" method="post" class="formsWithMessage">
+        <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <div class="mb-3">
+                <label for="dirigidoA" class="form-label">Persona a la que va dirigida la carta</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" class="form-control" name="dirigidoA" placeholder="Dirigido a Sra/Sr..." aria-label="dirigidoA" aria-describedby="basic-addon1">
+                    <input type="hidden" name="tipoSolicitud" value="1" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Solicitar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal de Prestamo -->
+<div class="modal fade" id="ModalPrestamo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de Préstamo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/prestamo" method="post" class="formsWithMessage">
+        <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <div class="mb-3">
+                <label for="monto" class="form-label">Saldo Solicitante</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                    <input type="number" class="form-control" name="monto" placeholder="Inserte el saldo solicitante" aria-label="Inserte el monto solicitado">
+                    <span class="input-group-text">.00</span>
+                    <input type="hidden" name="tipoSolicitud" value="2" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="monto" class="form-label">Motivo de la Solicitud</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-buildings-fill"></i></span>
+                    <select class="form-select" aria-label="Motivo" name="motivo">
+                        <option selected disabled>Seleccione el motivo</option>
+                        <option value="Gastos médicos/salud/medicina">Gastos médicos/salud/medicina</option>
+                        <option value="Gasto relacionados con vivienda">Gasto relacionados con vivienda</option>
+                        <option value="Gastos relacionados con vehículo">Gastos relacionados con vehículo</option>
+                        <option value="Gastos para alimentación">Gastos para alimentación</option>
+                        <option value="Gastos relacionados con Educación">Gastos relacionados con Educación</option>
+                        <option value="Otro motivo">Otro motivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="justificacion" class="form-label">Justificación de la solicitud</label>
+                <textarea class="form-control character-limit" maxlength="100" placeholder="..." name="justificacion" aria-label="justificacion"></textarea>
+                <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Solicitar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal de Chequeo Medico/ Pre-Empleo -->
+<div class="modal fade" id="ModalChequeo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de Chequeo Medico/Pre-Empleo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">@</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Recipient’s username" aria-label="Recipient’s username" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2">@example.com</span>
+          </div>
+
+          <div class="mb-3">
+            <label for="basic-url" class="form-label">Your vanity URL</label>
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+            </div>
+            <div class="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text">$</span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+            <span class="input-group-text">.00</span>
+          </div>
+
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+            <span class="input-group-text">@</span>
+            <input type="text" class="form-control" placeholder="Server" aria-label="Server">
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-text">With textarea</span>
+            <textarea class="form-control" aria-label="With textarea"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Solicitar</button>
       </div>
     </div>
   </div>
 </div>
+<!-- Modal de A.D.S -->
+<div class="modal fade" id="ModalAdelanto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de Adelanto de Prestaciones Sociales</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/adelanto" method="post" class="formsWithMessage">
+        <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo</label>
+                <textarea class="form-control character-limit" maxlength="100" placeholder="..." name="motivo" aria-label="motivo"></textarea>
+                <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+            </div>
+            <div class="mb-3">
+                <label for="saldo" class="form-label">Saldo Solicitante</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-cash"></i></span>
+                    <input type="number" class="form-control" name="saldo" placeholder="Inserte el saldo que esta solicitado (0-75%)" aria-label="Inserte el saldo que esta solicitado (0-75%)">
+                    <span class="input-group-text">%</span>
+                    <input type="hidden" name="tipoSolicitud" value="3" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Solicitar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal de EPP-->
+<div class="modal fade" id="ModalEpp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de EPP</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/epp" method="post" class="formsWithMessage">
+        <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <div class="mb-3">
+                <label for="actividad" class="form-label">Identifique la actividad laboral y los factores de riesgos asociados</label>
+                <textarea class="form-control character-limit" maxlength="100" placeholder="..." name="actividad" aria-label="actividad"></textarea>
+                <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+            </div>
+            <div class="mb-3">
+                <label for="equipo" class="form-label">Especifique el Equipo de Protección Personal requerido</label>
+                <textarea class="form-control character-limit" maxlength="100" placeholder="..." name="equipo" aria-label="equipo"></textarea>
+                <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+                <input type="hidden" name="tipoSolicitud" value="4"/>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Solicitar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal de Capacitación-->
+<div class="modal fade" id="ModalCapacitacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de capacitación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/capacitacion" method="post" class="formsWithMessage">
+          <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <div class="mb-3">
+                <label for="dirigido" class="form-label">Dirigido a</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
+                    <select class="form-select" name="dirigidoA[]" id="multiple-select-clear-field" data-placeholder="Selecciona el trabajador(es)" multiple="multiple">
+                        <% if(datosUsuarios && datosUsuarios.length > 0 ) { %>
+                        <% datosUsuarios.forEach(datosUsuario => { %>
+                            <option value="<%= datosUsuario.idUsuario %>"><%= datosUsuario.nombreCompleto %></option>
+                        <% })  %>
+                        <% }%>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="areaformacion" class="form-label">Área de formación</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="..." name="areaFormacion" id="areaFormacion" aria-describedby="basic-addon3 basic-addon4">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="justificacion" class="form-label">Justificación de la solicitud</label>
+                <textarea class="form-control character-limit" maxlength="100" placeholder="..." name="justificacion" aria-label="justificacion"></textarea>
+                <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+            </div>
+            <div class="mb-3">
+                <label for="tipoCapacitacion" class="form-label">Tipo de capacitación</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-checklist"></i></span>
+                    <input type="text" class="form-control" name="tipoCapacitacion" aria-label="tipoCapitacion" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="proveedor" class="form-label">Proveedor o institución sugerido</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-mortarboard-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="..." name="proveedorSugerido" aria-label="proveedor" aria-describedby="basic-addon1">
+                    <input type="hidden" name="tipoSolicitud" value="5"/>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Solicitar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal de Requisición de Personal -->
+<div class="modal fade" id="ModalRequisicion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Solicitud de Requisición de Personal</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/solicitudes/requisicion" method="post" class="formsWithMessage">
+        <div class="modal-body">
+            <div class="messageSolicitud"></div>
+            <p class="fs-7 fw-semibold">Datos generales</p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-buildings-fill"></i></span>
+                        <select class="form-select" aria-label="Empresa" name="empresa">
+                            <option selected disabled>Seleccione la empresa</option>
+                            <option value="Inversora Lockey">Inversora Lockey</option>
+                            <option value="Tratamaq">Tratamaq</option>
+                            <option value="Sucursal Caracas">Sucursal Caracas</option>
+                            <option value="Lockey SAS">Lockey SAS</option>
+                        </select>
+                        <input type="hidden" name="tipoSolicitud" value="7"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i></span>
+                        <select class="form-select" aria-label="Sede" name="sede">
+                            <option selected disabled>Seleccione la sede</option>
+                            <option value="Principal">Principal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
+                        <select class="form-select" aria-label="Gerencia" name="gerencia">
+                            <option selected disabled>Seleccione la gerencia</option>
+                            <option value="RR.HH.">RR.HH.</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="Ingrese el cargo solicitado" aria-label="Cargo" name="cargo" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="Ingrese el supervisor inmediato" aria-label="Supervisor" name="supervisor" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-stopwatch"></i></span>
+                        <select class="form-select" aria-label="Horario" name="horario">
+                            <option selected disabled>Seleccione el horario</option>
+                            <option value="Diurno">Diurno</option>
+                            <option value="Nocturno">Nocturno</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-brightness-high-fill"></i></span>
+                        <select class="form-select" aria-label="Turno" name="turno">
+                            <option selected disabled>Seleccione el turno</option>
+                            <option value="Diurno">Diurno</option>
+                            <option value="Nocturno">Nocturno</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-gender-ambiguous"></i></span>
+                        <select class="form-select" aria-label="Sexo" name="sexo">
+                            <option selected disabled>Seleccione el sexo</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-check-fill"></i></span>
+                        <select class="form-select" aria-label="Tipo de Requisición" name="tipoRequisicion">
+                            <option selected disabled>Seleccione el tipo de requisición</option>
+                            <option value="Reemplazo">Reemplazo</option>
+                            <option value="Adicional">Adicional</option>
+                            <option value="Nuevo cargo">Nuevo cargo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-check-fill"></i></span>
+                        <select class="form-select" aria-label="Tipo de contratación" name="tipoContratacion">
+                            <option selected disabled>Seleccione el tipo de contratación</option>
+                            <option value="Pasantías">Pasantías</option>
+                            <option value="Tiempo determinado">Tiempo determinado</option>
+                            <option value="Tiempo indeterminado">Tiempo indeterminado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <textarea class="form-control character-limit" placeholder="En caso de nuevo cargo, explique el motivo&#10;En caso de reemplazo, mencione a quien sustituye" maxlength="100" name="justificacion" aria-label="justificacion"></textarea>
+                        <div class="form-text" id="basic-addon4"><span class="character-counter">0</span>/100</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-clock"></i></span>
+                        <input type="number" class="form-control" placeholder="Ingrese la duración en meses" aria-label="Duración" name="duracion" aria-describedby="basic-addon1">
+                        <span class="input-group-text">meses</span>
+                    </div>
+                </div>
+            </div>
+            <p class="fs-7 fw-semibold mt-3">Perfil del candidato</p>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
+                        <select class="form-select" aria-label="Formación académica" name="formAcademica">
+                            <option selected disabled>Formación académica requerida</option>
+                            <option value="Bachiller">Bachiller</option>
+                            <option value="TSU">TSU</option>
+                            <option value="Profesional Universitario">Profesional Universitario</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-mortarboard-fill"></i></span>
+                        <input type="text" class="form-control" placeholder="Ingrese la carrera o mención requerida" aria-label="Carrera" name="carrera" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-briefcase-fill"></i></span>
+                        <select class="form-select" aria-label="Experiencia" name="experiencia">
+                            <option selected disabled>Experiencia laboral requerida</option>
+                            <option value="0 a 2 años">0 a 2 años</option>
+                            <option value="3 a 5 años">3 a 5 años</option>
+                            <option value="Más de 5 años">Más de 5 años</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-window"></i></span>
+                        <select class="form-select" aria-label="Sistema Informático" name="sistema">
+                            <option selected disabled>Sistema Informático</option>
+                            <option value="SAP">SAP</option>
+                            <option value="Solid Words">Solid Words</option>
+                            <option value="AutoCAD">AutoCAD</option>
+                            <option value="Inventor">Inventor</option>
+                            <option value="JD Edwards">JD Edwards</option>
+                            <option value="Saint">Saint</option>
+                            <option value="Otro">Otro</option>
+                            <option value="No aplica">No aplica</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-window"></i></span>
+                        <select class="form-select" aria-label="Otro Requisito" name="otro">
+                            <option selected disabled>Otro requisito necesario</option>
+                            <option value="Disponibilidad para viajar">Disponibilidad para viajar</option>
+                            <option value="Poseer vehículo">Poseer Vehículo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Solicitar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <%- include('partials/footer') %>

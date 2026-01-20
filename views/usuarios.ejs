@@ -1,9 +1,10 @@
 <%- include('partials/header') %>
 <div class="card">
     <div class="card-header">
-        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="btn btn-info btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalNewUser">
             <i class="bi bi-person-plus-fill"></i> Añadir Usuario
         </button>
+        <div id="messageDeleteUser"></div>
     </div>
     <div class="card-body">
         <table id="tableUsers" class="table table-striped" >
@@ -18,84 +19,262 @@
             <tbody>
                 <% if (users && users.length > 0) { %>
                 <% users.forEach(user => { %>
-                <tr>
-                    <th scope="row"><%= user.id %></th>
+                <tr data-id="<%= user.idUsuario %>">
+                    <th scope="row"><%= user.idUsuario %></th>
                     <td><%= user.username %></td>
                     <td>******</td>
                     <td class="tableBtns">
                         <!-- Botón de Editar -->
-                        <a href="#" class="btn btn-warning btn-sm">
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditUser/<%= user.idUsuario %>">
                             <i class="bi bi-pencil"></i> <div class="none">Editar</div>
-                        </a>
-                        <!-- Botón de Eliminar -->
-                        <button class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> <div class="none">Eliminar</div>
                         </button>
-                        
+                        <!-- Botón de Eliminar -->
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeleteUser/<%= user.idUsuario %>">
+                            <i class="bi bi-trash"></i><div class="none">Eliminar</div>
+                        </button>
                         <!-- Botón de Visualización -->
-                        <a href="#" class="btn btn-info btn-sm">
+                        <button href="#" class="btn btn-info btn-sm">
                             <i class="bi bi-box-arrow-up-right"></i> <div class="none">Ver</div>
-                        </a>
+                        </button>
+                        <!-- Modal de Eliminar Usuario -->
+                        <div class="modal fade" id="modalDeleteUser/<%= user.idUsuario %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmación de eliminación</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Quieres borrar el usuario con el siguiente ID: <%= user.idUsuario %>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button class="btn btn-success btn-delete" data-id="<%= user.idDatosUsuarios %>" data-bs-dismiss="modal">
+                                            Confirmar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal de Editar Usuario -->
+                        <div class="modal fade" id="modalEditUser/<%= user.idUsuario %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modificar usuario</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="/usuarios/<%= user.idUsuario %>" method="post" class="editUser" data-userid="<%= user.idUsuario %>">
+                                        <div class="modal-body">
+                                            <p class="fs-5 fw-semibold">Datos de Inicio de Sesión</p>
+                                            <div class="messageEdit"></div>
+                                            <input type="hidden" name="_method" value="PUT" />
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                                                <input type="text" class="form-control" placeholder="Usuario" aria-label="Username" name="username" value="<%= user.username %>" aria-describedby="basic-addon1">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-lock-fill"></i></span>
+                                                <input type="password" class="form-control showPassword" placeholder="Dejar en blanco para no cambiar" aria-label="Password" name="password" aria-describedby="basic-addon1">
+                                                <i class="bi bi-eye-slash togglePassword"></i>
+                                            </div>
+                                            <p class="fs-5 fw-semibold">Datos Personales</p>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-at"></i></span>
+                                                <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="Fullname" name="fullname" value="<%= user.nombreCompleto %>" aria-describedby="basic-addon1">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
+                                                <input type="text" class="form-control" placeholder="Cédula" aria-label="Cedula" name="cedula" value="<%= user.cedula %>" aria-describedby="basic-addon1">
+                                                <select class="form-select" aria-label="Nivel de Acceso" name="rol">
+                                                    <option selected disabled>Nivel de acceso</option>
+                                                    <% if(rols && rols.length > 0 ) { %>
+                                                    <% rols.forEach(rol => { %>
+                                                        <option value="<%= rol.idRol %>" <%= rol.idRol === user.idRol ? 'selected' : '' %>><%= rol.nombreRol %></option>
+                                                    <% })  %>
+                                                    <% }%>
+                                                </select>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-buildings-fill"></i></span>
+                                                <select class="form-select" aria-label="Empresa" name="empresa">
+                                                    <option selected disabled>Seleccione la empresa</option>
+                                                    <option value="Inversora Lockey"  <%= "Inversora Lockey" === user.empresa ? 'selected' : '' %>>Inversora Lockey</option>
+                                                    <option value="Tratamaq"  <%= "Tratamaq" === user.empresa ? 'selected' : '' %>>Tratamaq</option>
+                                                    <option value="Sucursal Caracas"  <%= "Sucursal Caracas" === user.empresa ? 'selected' : '' %>>Sucursal Caracas</option>
+                                                    <option value="Lockey SAS"  <%= "Lockey SAS" === user.empresa ? 'selected' : '' %>>Lockey SAS</option>
+                                                </select>
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i></span>
+                                                <select class="form-select" aria-label="Sede" name="sede">
+                                                    <option selected disabled>Seleccione la sede</option>
+                                                    <option value="Principal" <%= "Principal" === user.sede ? 'selected' : '' %>>Principal</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-briefcase-fill"></i></span>
+                                                <select id="selectBox<%= user.idUsuario %>" class="form-select" aria-label="Cargo" name="cargo">
+                                                    <option selected disabled>Seleccione el cargo</option>
+                                                    <% if(cargos && cargos.length > 0) { %>
+                                                    <% cargos.forEach(cargo => { %>
+                                                        <option value="<%= cargo.idCargo %>" <%= cargo.idCargo === user.idCargo ? 'selected' : '' %>><%= cargo.nombreCargo %></option>
+                                                    <% }) %>
+                                                    <% } %>
+                                                </select>
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
+                                                <select class="form-select" aria-label="Gerencia" name="gerencia">
+                                                    <option selected disabled>Seleccione la gerencia</option>
+                                                    <option value="RR.HH." <%= "RR.HH." === user.gerencia ? 'selected' : '' %>>RR.HH.</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash"></i></span>
+                                                <input type="text" class="form-control" placeholder="Salario Base" aria-label="Salario" name="salario" value="<%= user.salario %>" aria-describedby="basic-addon1">
+                                            </div>
+                                            <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash"></i></span>
+                                                <input type="date" class="form-control" placeholder="Fecha de Ingreso" aria-label="Fecha de Ingreso" name="fechaIngreso" value="<%= user.fechaIngreso %>" aria-describedby="basic-addon1">
+                                            </div>
+                                            <p class="fs-8 fw-semibold">Tallas de ropa</p>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-universal-access"></i></span>
+                                                <select class="form-select" aria-label="TallaCamisa" name="tallaCamisa">
+                                                    <option selected disabled>Camisa</option>
+                                                    <option value="S" <%= "S" === user.tallaCamisa ? 'selected' : '' %>>S</option>
+                                                    <option value="M" <%= "M" === user.tallaCamisa ? 'selected' : '' %>>M</option>
+                                                    <option value="L" <%= "L" === user.tallaCamisa ? 'selected' : '' %>>L</option>
+                                                    <option value="XL" <%= "XL" === user.tallaCamisa ? 'selected' : '' %>>XL</option>
+                                                </select>
+                                                <select class="form-select" aria-label="TallaPantalon" name="tallaPantalon">
+                                                    <option selected disabled>Pantalon</option>
+                                                    <option value="S" <%= "S" === user.tallaPantalon ? 'selected' : '' %>>S</option>
+                                                    <option value="M" <%= "M" === user.tallaPantalon ? 'selected' : '' %>>M</option>
+                                                    <option value="L" <%= "L" === user.tallaPantalon ? 'selected' : '' %>>L</option>
+                                                    <option value="XL" <%= "XL" === user.tallaPantalon ? 'selected' : '' %>>XL</option>
+                                                </select>
+                                                <input type="text" class="form-control" placeholder="Calzado" aria-label="Calzado" name="tallaCalzado" value="<%= user.tallaCalzado %>" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Modificar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <% }) %>
-                <% }%>   
+                <% }%>
             </tbody>
         </table>
     </div>
 </div>
 <!-- Modal de Añadir Usuario -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalNewUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Registro de usuario</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/register" method="post" id="registerUser">
-                    <div id="errorRegister"></div>
+            <form action="/usuarios" method="post" id="registerUser">
+                <div class="modal-body">
+                    <div id="messageregister"></div>
+                    <p class="fs-5 fw-semibold">Datos de Inicio de Sesión</p>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
                         <input type="text" class="form-control" placeholder="Usuario" aria-label="Username" name="username" aria-describedby="basic-addon1">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-lock-fill"></i></span>
-                        <input type="password" class="form-control" placeholder="Contraseña" aria-label="Password" name="password" aria-describedby="basic-addon1">
+                        <input type="password" class="form-control showPassword" placeholder="Contraseña" aria-label="Password" name="password" aria-describedby="basic-addon1">
+                        <i class="bi bi-eye-slash togglePassword"></i>
+                        <span id="passwordHelpInline" class="form-text">
+                            La contraseña debe que tener entre 8 y 20 caracteres, contener al menos un número y un carácter especial.
+                        </span>
                     </div>
                     <p class="fs-5 fw-semibold">Datos Personales</p>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-at"></i></span>
                         <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="Fullname" name="fullname" aria-describedby="basic-addon1">
-                    </div>   
+                    </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
                         <input type="text" class="form-control" placeholder="Cédula" aria-label="Cedula" name="cedula" aria-describedby="basic-addon1">
-                        <select class="form-select" aria-label="Nivel de Acceso">
-                            <option selected>Nivel de acceso</option>
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-key-fill"></i></span>
+                        <select class="form-select" aria-label="Nivel de Acceso" name="rol">
+                            <option selected disabled>Nivel de acceso</option>
                             <% if(rols && rols.length > 0 ) { %>
-                            <% rols.forEach(rol => {%>
+                            <% rols.forEach(rol => { %>
                                 <option value="<%= rol.idRol %>"><%= rol.nombreRol %></option>
                             <% })  %>
                             <% }%>
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-briefcase-fill"></i></span>
-                        <select id="selectBox" class="form-select" aria-label="Cargo">
-                            <option selected>Seleccione el cargo</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-buildings-fill"></i></span>
+                        <select class="form-select" aria-label="Empresa" name="empresa">
+                            <option selected disabled>Seleccione la empresa</option>
+                            <option value="Inversora Lockey">Inversora Lockey</option>
+                            <option value="Tratamaq">Tratamaq</option>
+                            <option value="Sucursal Caracas">Sucursal Caracas</option>
+                            <option value="Lockey SAS">Lockey SAS</option>
+                        </select>
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-building-fill"></i></span>
+                        <select class="form-select" aria-label="Sede" name="sede">
+                            <option selected disabled>Seleccione la sede</option>
+                            <option value="Principal">Principal</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Registrar</button>          
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Cerrar</button>
-            </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-briefcase-fill"></i></span>
+                        <select id="selectBox" class="form-select" aria-label="Cargo" name="cargo">
+                            <option selected disabled>Seleccione el cargo</option>
+                            <% if(cargos && cargos.length > 0) { %>
+                            <% cargos.forEach(cargo => { %>
+                                <option value="<%= cargo.idCargo %>"><%= cargo.nombreCargo %></option>
+                            <% }) %>
+                            <% } %>
+                        </select>
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-vcard-fill"></i></span>
+                        <select class="form-select" aria-label="Gerencia" name="gerencia">
+                            <option selected disabled>Seleccione la gerencia</option>
+                            <option value="RR.HH.">RR.HH.</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash"></i></span>
+                        <input type="text" class="form-control" placeholder="Salario Base" aria-label="Salario" name="salario" aria-describedby="basic-addon1">
+                    </div>
+                    <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash"></i></span>
+                        <input type="date" class="form-control" placeholder="Fecha de Ingreso" aria-label="Fecha de Ingreso" name="fechaIngreso" aria-describedby="basic-addon1">
+                    </div>
+                    <p class="fs-8 fw-semibold">Tallas de ropa</p>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="bi bi-universal-access"></i></span>
+                        <select class="form-select" aria-label="TallaCamisa" name="tallaCamisa">
+                            <option selected disabled>Camisa</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                        <select class="form-select" aria-label="TallaPantalon" name="tallaPantalon">
+                            <option selected disabled>Pantalon</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="Calzado" aria-label="Calzado" name="tallaCalzado" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-
 <%- include('partials/footer') %>

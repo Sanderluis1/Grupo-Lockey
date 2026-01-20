@@ -1,0 +1,49 @@
+.formResponsive {
+    width: 20vw;
+}
+.none {
+    display: contents;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #2b3035;
+}
+
+.imgFooter {
+    width: 20vw;
+}
+
+.togglePassword {
+    float: right;
+    margin-left: -15px !important;
+    margin-top: 7px;
+    right: 10px;
+    position: relative;
+    z-index: 2;
+}
+#togglePass {
+    float: right;
+    margin-top: -40px;
+    right: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 431px) {
+    .formResponsive {
+        width: 80vw;
+    }
+    .tableBtns {
+        display: flex;
+        justify-content: space-between;
+    }
+    .none {
+        display: none;
+    }
+    .imgFooter {
+        width: 50vw;
+    }
+}

@@ -1,47 +1,104 @@
 <%- include('partials/header') %>
 <div class="card">
+    <div class="card-header">
+        <div id="messageSolicitud"></div>
+    </div>
     <div class="card-body">
-        <table class="table table-bordered">
+        <table id="tableGestionSolicitudes" class="table table-striped" >
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
+                    <th></th>
+                    <th scope="col">IDSolicitud</th>
                     <th scope="col">Tipo de Solicitud</th>
+                    <th scope="col">Fecha de Solicitud</th>
+                    <th scope="col">Fecha de Recepción</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Constancia de Trabajo</td>
-                    <td>
-                        <button type="button" class="btn btn-success btn-sm"><i class="bi bi-check2"></i> Aprobar</button>
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Denegar</button>
+                <% if (solicitudes && solicitudes.length > 0) { %>
+                <% solicitudes.forEach(solicitud => { %>
+                <tr data-id="<%= solicitud.idSolicitud %>" data-idtipo="<%= solicitud.idTipoSolicitud %>" data-idSolicitante="<%= solicitud.idUsuarioSolicitante %>">
+                    <td class="dt-control"></td>
+                    <th scope="row"><%= solicitud.idSolicitud %></th>
+                    <td><%= solicitud.nombreSolicitud %></td>
+                    <td><%= solicitud.fechaSolicitud %></td>
+                    <% if(solicitud.fechaRecepcion === null) { %>
+                        <td>En espera</td>
+                    <% } else { %>
+                        <td><%= solicitud.fechaRecepcion %></td>
+                    <% } %>
+                    <% if(solicitud.estado === "Denegada") { %>
+                        <td class="table-danger text-center"><%= solicitud.estado %></td>
+                    <% } if(solicitud.estado === "Aprobada") { %>
+                        <td class="table-success text-center"><%= solicitud.estado %></td>
+                    <% } if(solicitud.estado === "Pendiente") { %>
+                        <td class="table-warning text-center"><%= solicitud.estado %></td>
+                    <% } %>
+                    <% if(solicitud.idTipoSolicitud === 1 && solicitud.estado === "Aprobada" ) { %>
+                    <td class="text-center"style="padding: 5px;">
+                        <a href="/gestionsolicitudes/reporte/<%= solicitud.idSolicitud %>" class="btn btn-success btn-sm">
+                            <i class="bi bi-file-earmark-arrow-down-fill"></i><div class="none"> Descargar</div>
+                        </a>
                     </td>
+                    <% } if(solicitud.idTipoSolicitud != 1 && solicitud.estado === "Pendiente") { %>
+                        <td class="text-center">
+                            <!-- Boton de Modal Aprobar Solicitud -->
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalAllowSolicitud/<%= solicitud.idSolicitud %>">
+                                <i class="bi bi-check-lg"></i><div class="none"> Aprobar</div>
+                            </button>
+                            <!-- Modal Aprobar Solicitud -->
+                            <div class="modal fade" id="modalAllowSolicitud/<%= solicitud.idSolicitud %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmación de aprobación</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Estas seguro que quieres aprobar la solicitud de <strong><%= solicitud.nombreSolicitud %></strong> con el siguiente <strong> ID: <%= solicitud.idSolicitud %></strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button class="btn btn-success botonRecepcion" data-id="<%= solicitud.idSolicitud %>" data-res="1" data-bs-dismiss="modal">
+                                                <i class="bi bi-check-lg"></i> Aprobar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Boton de Modal Denegar Solicitud -->
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalDenySolicitud/<%= solicitud.idSolicitud %>">
+                                <i class="bi bi-x-lg"></i><div class="none"> Denegar</div>
+                            </button>
+                            <!-- Modal Denegar Solicitud -->
+                            <div class="modal fade" id="modalDenySolicitud/<%= solicitud.idSolicitud %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmación de denegación</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Estas seguro que quieres denegar la solicitud de <strong><%= solicitud.nombreSolicitud %></strong> con el siguiente <strong> ID: <%= solicitud.idSolicitud %></strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button class="btn btn-danger botonRecepcion" data-id="<%= solicitud.idSolicitud %>" data-res="0" data-bs-dismiss="modal">
+                                                <i class="bi bi-x-lg"></i> Denegar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    <% } if(solicitud.idTipoSolicitud != 1 && solicitud.estado === "Aprobada" || solicitud.idTipoSolicitud != 1 && solicitud.estado === "Denegada") { %>
+                        <td> </td>
+                    <% } %>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>Préstamos</td>
-                    <td>
-                        <button type="button" class="btn btn-success btn-sm"><i class="bi bi-check2"></i> Aprobar</button>
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Denegar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>Adelanto de Prestaciones Sociales</td>
-                    <td>
-                        <button type="button" class="btn btn-success btn-sm"><i class="bi bi-check2"></i> Aprobar</button>
-                        <button type="button" class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Denegar</button>
-                    </td>
-                </tr>
+                <% }) %>
+                <% } %>
             </tbody>
         </table>
     </div>

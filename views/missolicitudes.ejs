@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+<div class="card">
+    <div class="card-header">
+
+    </div>
+    <div class="card-body">
+        <table id="tableMisSolicitudes" class="table table-striped" >
+            <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">IDSolicitud</th>
+                    <th scope="col">Tipo de Solicitud</th>
+                    <th scope="col">Fecha de Solicitud</th>
+                    <th scope="col">Fecha de Recepción</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (solicitudes && solicitudes.length > 0) { %>
+                <% solicitudes.forEach(solicitud => { %>
+                <tr data-id="<%= solicitud.idSolicitud %>" data-idtipo="<%= solicitud.idTipoSolicitud %>">
+                    <td class="dt-control"></td>
+                    <th scope="row"><%= solicitud.idSolicitud %></th>
+                    <td><%= solicitud.nombreSolicitud %></td>
+                    <td><%= solicitud.fechaSolicitud %></td>
+                    <% if(solicitud.fechaRecepcion === null) { %>
+                        <td>En espera</td>
+                    <% } else { %>
+                        <td><%= solicitud.fechaRecepcion %></td>
+                    <% } %>
+                    <% if(solicitud.estado === "Denegada") { %>
+                        <td class="table-danger text-center"><%= solicitud.estado %></td>
+                    <% } %>
+                    <% if(solicitud.estado === "Aprobada") { %>
+                        <td class="table-success text-center"><%= solicitud.estado %></td>
+                    <% } if(solicitud.estado === "Pendiente") { %>
+                        <td class="table-warning text-center"><%= solicitud.estado %></td>
+                    <% } %>
+                    <% if(solicitud.idTipoSolicitud === 1) { %>
+                    <td class="text-center"style="padding: 5px;">
+                        <a href="/missolicitudes/reporte/<%= solicitud.idSolicitud %>" class="btn btn-success btn-sm">
+                            <i class="bi bi-file-earmark-arrow-down-fill"></i><div class="none"> Descargar</div>
+                        </a>
+                    </td>
+                    <% } else { %>
+                        <td class="text-center">No Aplica</td>
+                    <% } %>
+                </tr>
+                <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<%- include('partials/footer') %>
